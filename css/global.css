@@ -13,7 +13,7 @@
   --radius: 8px;
   --font: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
   --mono: "Roboto Mono", "SFMono-Regular", Menlo, monospace;
-  --max: 640px;
+  --max: 736px;
   --pad: clamp(1.25rem, 5vw, 2rem);
   color-scheme: dark;
 }
@@ -475,7 +475,7 @@ a:focus-visible {
 /* Tablet */
 @media (max-width: 900px) {
   :root {
-    --max: 720px;
+    --max: 680px;
   }
 }
 
