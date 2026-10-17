@@ -1,6 +1,6 @@
 # Towards Data Engineering — publication site
 
-Static site for [Towards Data Engineering](https://medium.com/towards-data-engineering) on Medium: writer requests, FAQs, and guidelines (Editors apply page still stubbed).
+Static site for [Towards Data Engineering](https://medium.com/towards-data-engineering) on Medium: writer requests, editor applications, and FAQs.
 
 Built for **GitHub Pages**. No build step.
 
@@ -36,13 +36,12 @@ Point your Medium About CTA at that URL (or the Writers page, which is the homep
 |---|---|
 | Writer intro + form | `index.html` |
 | Google Form URL / iframe height | `index.html` — iframe `src`; height in `css/global.css` (default `1600px`) |
-| FAQs (writers / editors accordions) | `faqs.html` |
-| Guidelines (writers / editors accordions) | `guidelines.html` |
-| Editors apply stub | `editors.html` |
+| FAQs and guidelines | `faqs.html` (`guidelines.html` redirects here) |
+| Editor intro + form | `editors.html` |
 | Nav, footer, styles | Each HTML file; `css/global.css` |
 | Theme | Black / white + brand blue `#004AAD`; follows OS `prefers-color-scheme` |
 
-FAQs and Guidelines use native `<details>` blocks: **For writers** open by default, **For editors** closed. Copy is summarized from Medium Help; keep links current:
+FAQs use native `<details>` blocks. Every section starts collapsed. Copy is summarized from Medium Help; keep links current:
 
 - [AI content policy](https://help.medium.com/hc/en-us/articles/22576852947223-Artificial-Intelligence-AI-content-policy)
 - [Partner Program](https://medium.com/partner-program) / [earnings calculation](https://help.medium.com/hc/en-us/articles/360036691193-Medium-Partner-Program-earnings-calculation)

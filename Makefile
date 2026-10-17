@@ -28,16 +28,19 @@ check:
 	for f in index.html editors.html faqs.html guidelines.html css/global.css README.md; do \
 		if [ ! -f "$$f" ]; then echo "missing: $$f"; fail=1; fi; \
 	done; \
-	for f in index.html editors.html faqs.html guidelines.html; do \
+	for f in index.html editors.html faqs.html; do \
 		if ! grep -q 'href="css/global.css"' "$$f"; then \
 			echo "$$f: missing css/global.css link"; fail=1; \
 		fi; \
-		for href in index.html editors.html faqs.html guidelines.html; do \
+		for href in index.html editors.html faqs.html; do \
 			if ! grep -q "href=\"$$href\"" "$$f"; then \
 				echo "$$f: missing nav link to $$href"; fail=1; \
 			fi; \
 		done; \
 	done; \
+	if ! grep -q 'url=faqs.html' guidelines.html; then \
+		echo "guidelines.html: missing redirect to faqs.html"; fail=1; \
+	fi; \
 	if [ ! -f assets/favicon-32.png ]; then \
 		echo "missing: assets/favicon-32.png"; fail=1; \
 	fi; \
