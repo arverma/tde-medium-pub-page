@@ -1,60 +1,40 @@
-# Towards Data Engineering — publication site
+# Towards Data Engineering
 
-Static site for [Towards Data Engineering](https://medium.com/towards-data-engineering) on Medium: writer requests, editor applications, and FAQs.
+Public site for the [Towards Data Engineering](https://medium.com/towards-data-engineering) publication on Medium. Live at [tde.arverma.dev](https://tde.arverma.dev).
 
-Built for **GitHub Pages**. No build step.
+| Page | File | What it does |
+|---|---|---|
+| #Write@TDE | `index.html` | Writer request form |
+| #Edit@TDE | `editors.html` | Editor application form. The publication is in Medium’s [Editor Partner Program](https://medium.com/blog/partner-program-update-starting-june-1-were-rewarding-editors-for-stories-they-edit-aaec12a97cea) |
+| FAQs | `faqs.html` | Writer and editor rules. Sections start collapsed. `guidelines.html` redirects here |
 
-## Local preview
+Footer links: [Medium](https://medium.com/towards-data-engineering), [email](mailto:towardsdataengg@gmail.com), [X](https://x.com/TowardsDataEngg), [LinkedIn](https://www.linkedin.com/company/towards-data-engineering/).
+
+Static HTML and CSS. No build step. GitHub Pages serves `main` from the repo root. The theme is black / white with brand blue `#004AAD` and follows the system color scheme. Google Form iframes stay on Google’s light chrome.
+
+## Develop
 
 ```bash
-make serve
+make serve   # http://localhost:8765
+make check   # required files and nav links
 ```
 
-Or: `python3 -m http.server 8080`. Then open `http://localhost:8765` (default `make serve` port) or `8080`.
+`make check` also runs in GitHub Actions on push and pull requests.
 
-```bash
-make check   # required files + internal nav links
-```
-
-GitHub Actions runs `make check` on push and pull requests.
-
-The layout is responsive for phone, tablet, and desktop (fluid padding, wrapping/scrollable nav, scaled form height, stacked footer on small screens).
-
-## Deploy on GitHub Pages
-
-1. Push this repo to GitHub.
-2. **Settings → Pages → Build and deployment**
-3. Source: **Deploy from a branch**
-4. Branch: `main` (or `master`), folder: `/` (root)
-5. Save. The site will be at `https://<user>.github.io/<repo>/`
-
-Point your Medium About CTA at that URL (or the Writers page, which is the homepage).
-
-## Edit content
-
-| What | Where |
-|---|---|
-| Writer intro + form | `index.html` |
-| Google Form URL / iframe height | `index.html` — iframe `src`; height in `css/global.css` (default `1600px`) |
-| FAQs and guidelines | `faqs.html` (`guidelines.html` redirects here) |
-| Editor intro + form | `editors.html` |
-| Nav, footer, styles | Each HTML file; `css/global.css` |
-| Theme | Black / white + brand blue `#004AAD`; follows OS `prefers-color-scheme` |
-
-FAQs use native `<details>` blocks. Every section starts collapsed. Copy is summarized from Medium Help; keep links current:
+To change a form, edit the iframe `src` in `index.html` or `editors.html` and keep `?embedded=true`. FAQ copy is a summary of Medium Help. Keep these current:
 
 - [AI content policy](https://help.medium.com/hc/en-us/articles/22576852947223-Artificial-Intelligence-AI-content-policy)
-- [Partner Program](https://medium.com/partner-program) / [earnings calculation](https://help.medium.com/hc/en-us/articles/360036691193-Medium-Partner-Program-earnings-calculation)
-- [Distribution / Boost guidelines](https://help.medium.com/hc/en-us/articles/360006362473-Medium-s-Distribution-Guidelines-How-curators-review-stories-for-Boost-General-and-Network-Distribution)
+- [Partner Program](https://medium.com/partner-program) and [earnings](https://help.medium.com/hc/en-us/articles/360036691193-Medium-Partner-Program-earnings-calculation)
+- [Distribution / Boost](https://help.medium.com/hc/en-us/articles/360006362473-Medium-s-Distribution-Guidelines-How-curators-review-stories-for-Boost-General-and-Network-Distribution)
+- [Medium Rules](https://policy.medium.com/medium-rules-30e5502c4eb4)
 
-Form embed URL currently:
+Nav labels are duplicated in each HTML file. Change them together.
 
-```
-https://docs.google.com/forms/d/e/1FAIpQLSeVCp8TaDkdbPjp7aX94Ck4LaxaVjkb65P8IfoFq_Y25jFF8w/viewform?embedded=true
-```
+## Contribute
 
-Keep `?embedded=true` when swapping forms.
+Fixes and clearer copy are welcome. Open a pull request.
 
-## Note on the form
-
-The Google Form iframe uses Google’s default (light) chrome. The surrounding page follows the system light/dark preference; that contrast cannot be restyled from outside the iframe.
+- Correct outdated Medium rules, broken links, or typos.
+- Keep the voice plain. Don’t add policy that isn’t in Medium Help or this publication’s own forms.
+- Match the existing layout. One change per pull request.
+- Run `make check` before you push.
