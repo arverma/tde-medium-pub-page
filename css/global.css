@@ -187,7 +187,7 @@ a:focus-visible {
 
 .hero-bio {
   margin: 0;
-  max-width: 520px;
+  max-width: none;
   color: var(--ink-2);
   line-height: 1.75;
 }
@@ -227,7 +227,7 @@ a:focus-visible {
   margin: 0;
   color: var(--ink-2);
   line-height: 1.75;
-  max-width: 520px;
+  max-width: none;
 }
 
 .coming-soon {
@@ -258,10 +258,19 @@ a:focus-visible {
   list-style: none;
   cursor: pointer;
   padding-block: 1.25rem;
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
   color: var(--ink);
   transition: color 0.15s ease;
+}
+
+.accordion > summary span {
+  padding-bottom: 0.15rem;
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-repeat: no-repeat;
+  background-size: 1.35rem 1px;
+  background-position: left bottom;
 }
 
 .accordion > summary::-webkit-details-marker {
@@ -318,11 +327,22 @@ a:focus-visible {
 }
 
 .faq-q {
-  margin: 0 0 0.35rem;
-  font-size: 0.9rem;
-  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0 0 0.45rem;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
   color: var(--ink);
-  line-height: 1.4;
+  line-height: 1.35;
+}
+
+.faq-q::before {
+  content: "";
+  flex: 0 0 0.55rem;
+  height: 1px;
+  background: var(--accent);
 }
 
 .faq-a {
@@ -568,7 +588,7 @@ a:focus-visible {
   }
 
   .faq-q {
-    font-size: 0.88rem;
+    font-size: 0.92rem;
   }
 
   .faq-a {
@@ -577,7 +597,7 @@ a:focus-visible {
 
   .accordion > summary {
     padding-block: 1.1rem;
-    font-size: 0.88rem;
+    font-size: 1.02rem;
     min-height: 2.75rem;
   }
 
