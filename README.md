@@ -13,6 +13,30 @@ Footer links: [Partner Policy](partner-policy.html), [Medium](https://medium.com
 
 Static HTML and CSS. No build step. GitHub Pages serves `main` from the repo root. The theme is black / white with brand blue `#004AAD` and follows the system color scheme. Google Form iframes stay on Google’s light chrome.
 
+## Search visibility
+
+The public origin is `https://tde.arverma.dev/`. Each indexable page owns an
+absolute canonical URL, unique search/social metadata, and JSON-LD that
+describes the publication and the visible page content. `robots.txt` points
+crawlers to `sitemap.xml`; the legacy `guidelines.html` redirect is
+`noindex` and is intentionally excluded from the sitemap.
+
+When changing page copy or adding pages:
+
+- Keep the page title, description, canonical, Open Graph, and Twitter/X
+  metadata aligned and unique.
+- Keep one meaningful `h1` per indexable page and put important explanations
+  in visible HTML rather than only in a Google Form or JSON-LD.
+- Keep FAQ JSON-LD synchronized with the visible questions and answers.
+- Update the visible policy date and JSON-LD `dateModified` when Medium source
+  policies or this site's guidance changes.
+- Add new canonical pages to `sitemap.xml` and extend `make check` when adding
+  new metadata requirements.
+
+After deployment, submit `https://tde.arverma.dev/sitemap.xml` to Google Search
+Console and Bing Webmaster Tools. Structured data improves machine
+understanding but does not guarantee rankings, rich results, or AI citations.
+
 ## Develop
 
 ```bash

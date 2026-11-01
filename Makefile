@@ -1,5 +1,7 @@
 .PHONY: help serve serve-restart check
 
+SITE_ORIGIN ?= https://tde.arverma.dev
+
 PORT ?= 8765
 
 help:
@@ -25,12 +27,27 @@ serve-restart:
 
 check:
 	@fail=0; \
-	for f in index.html editors.html faqs.html guidelines.html partner-policy.html css/global.css README.md js/site.js; do \
+	for f in index.html editors.html faqs.html guidelines.html partner-policy.html robots.txt sitemap.xml css/global.css README.md js/site.js; do \
 		if [ ! -f "$$f" ]; then echo "missing: $$f"; fail=1; fi; \
 	done; \
 	for f in index.html editors.html faqs.html partner-policy.html; do \
 		if ! grep -q 'href="css/global.css"' "$$f"; then \
 			echo "$$f: missing css/global.css link"; fail=1; \
+		fi; \
+		if ! grep -q '<h1' "$$f"; then \
+			echo "$$f: missing h1"; fail=1; \
+		fi; \
+		if [ "$$(grep -c '<h1' "$$f")" -ne 1 ]; then \
+			echo "$$f: expected exactly one h1"; fail=1; \
+		fi; \
+		if ! grep -q '<link rel="canonical"' "$$f"; then \
+			echo "$$f: missing canonical"; fail=1; \
+		fi; \
+		if ! grep -q 'property="og:title"' "$$f"; then \
+			echo "$$f: missing Open Graph metadata"; fail=1; \
+		fi; \
+		if ! grep -q 'name="twitter:card"' "$$f"; then \
+			echo "$$f: missing Twitter metadata"; fail=1; \
 		fi; \
 		for href in index.html editors.html faqs.html partner-policy.html; do \
 			if ! grep -q "href=\"$$href\"" "$$f"; then \
@@ -43,6 +60,23 @@ check:
 	done; \
 	if ! grep -q 'url=faqs.html' guidelines.html; then \
 		echo "guidelines.html: missing redirect to faqs.html"; fail=1; \
+	fi; \
+	if ! grep -q "Sitemap: $(SITE_ORIGIN)/sitemap.xml" robots.txt; then \
+		echo "robots.txt: missing sitemap reference"; fail=1; \
+	fi; \
+	for href in $(SITE_ORIGIN)/ $(SITE_ORIGIN)/editors.html $(SITE_ORIGIN)/faqs.html $(SITE_ORIGIN)/partner-policy.html; do \
+		if ! grep -q "$$href" sitemap.xml; then \
+			echo "sitemap.xml: missing $$href"; fail=1; \
+		fi; \
+	done; \
+	if grep -q 'guidelines.html' sitemap.xml; then \
+		echo "sitemap.xml: legacy guidelines URL must not be included"; fail=1; \
+	fi; \
+	if ! grep -q 'application/ld+json' index.html; then \
+		echo "index.html: missing structured data"; fail=1; \
+	fi; \
+	if ! grep -q 'application/ld+json' faqs.html; then \
+		echo "faqs.html: missing structured data"; fail=1; \
 	fi; \
 	if [ ! -f assets/favicon-32.png ]; then \
 		echo "missing: assets/favicon-32.png"; fail=1; \
