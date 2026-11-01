@@ -25,18 +25,21 @@ serve-restart:
 
 check:
 	@fail=0; \
-	for f in index.html editors.html faqs.html guidelines.html css/global.css README.md; do \
+	for f in index.html editors.html faqs.html guidelines.html partner-policy.html css/global.css README.md js/site.js; do \
 		if [ ! -f "$$f" ]; then echo "missing: $$f"; fail=1; fi; \
 	done; \
-	for f in index.html editors.html faqs.html; do \
+	for f in index.html editors.html faqs.html partner-policy.html; do \
 		if ! grep -q 'href="css/global.css"' "$$f"; then \
 			echo "$$f: missing css/global.css link"; fail=1; \
 		fi; \
-		for href in index.html editors.html faqs.html; do \
+		for href in index.html editors.html faqs.html partner-policy.html; do \
 			if ! grep -q "href=\"$$href\"" "$$f"; then \
 				echo "$$f: missing nav link to $$href"; fail=1; \
 			fi; \
 		done; \
+		if ! grep -q 'src="js/site.js"' "$$f"; then \
+			echo "$$f: missing js/site.js"; fail=1; \
+		fi; \
 	done; \
 	if ! grep -q 'url=faqs.html' guidelines.html; then \
 		echo "guidelines.html: missing redirect to faqs.html"; fail=1; \

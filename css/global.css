@@ -230,6 +230,44 @@ a:focus-visible {
   max-width: none;
 }
 
+.policy-section {
+  padding-block: 2rem;
+}
+
+.policy-section .section-title {
+  font-size: 1.05rem;
+}
+
+.discord-link {
+  color: var(--ink-2);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.discord-link:hover {
+  color: var(--accent);
+}
+
+.discord-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.5rem;
+  padding: 0.6rem 0.85rem;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: #ffffff;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  line-height: 1.2;
+}
+
+.discord-button:hover {
+  background: transparent;
+  color: var(--accent);
+}
+
 .coming-soon {
   padding-block: clamp(2.5rem, 6vw, 4rem);
   border-bottom: none;

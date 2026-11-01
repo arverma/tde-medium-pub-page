@@ -7,8 +7,9 @@ Public site for the [Towards Data Engineering](https://medium.com/towards-data-e
 | #Write@TDE | `index.html` | Writer request form |
 | #Edit@TDE | `editors.html` | Editor application form. The publication is in Medium’s [Editor Partner Program](https://medium.com/blog/partner-program-update-starting-june-1-were-rewarding-editors-for-stories-they-edit-aaec12a97cea) |
 | FAQs | `faqs.html` | Writer and editor rules. Sections start collapsed. `guidelines.html` redirects here |
+| Partner Policy | `partner-policy.html` | How limited partner content is handled |
 
-Footer links: [Medium](https://medium.com/towards-data-engineering), [email](mailto:towardsdataengg@gmail.com), [X](https://x.com/TowardsDataEngg), [LinkedIn](https://www.linkedin.com/company/towards-data-engineering/).
+Footer links: [Partner Policy](partner-policy.html), [Medium](https://medium.com/towards-data-engineering), [email](mailto:towardsdataengg@gmail.com), [X](https://x.com/TowardsDataEngg), [LinkedIn](https://www.linkedin.com/company/towards-data-engineering/). The Discord invite is configured in `js/site.js` and remains hidden until a URL is set.
 
 Static HTML and CSS. No build step. GitHub Pages serves `main` from the repo root. The theme is black / white with brand blue `#004AAD` and follows the system color scheme. Google Form iframes stay on Google’s light chrome.
 
