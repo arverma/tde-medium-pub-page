@@ -43,17 +43,53 @@ check:
 		if ! grep -q '<link rel="canonical"' "$$f"; then \
 			echo "$$f: missing canonical"; fail=1; \
 		fi; \
+		if [ "$$(grep -c '<title>' "$$f")" -ne 1 ]; then \
+			echo "$$f: expected exactly one title"; fail=1; \
+		fi; \
+		if [ "$$(grep -c 'name="description"' "$$f")" -ne 1 ]; then \
+			echo "$$f: expected exactly one meta description"; fail=1; \
+		fi; \
 		if ! grep -q 'property="og:title"' "$$f"; then \
 			echo "$$f: missing Open Graph metadata"; fail=1; \
 		fi; \
+		for attr in og:description og:url og:image; do \
+			if ! grep -q "property=\"$$attr\"" "$$f"; then \
+				echo "$$f: missing Open Graph $$attr"; fail=1; \
+			fi; \
+		done; \
 		if ! grep -q 'name="twitter:card"' "$$f"; then \
 			echo "$$f: missing Twitter metadata"; fail=1; \
+		fi; \
+		if ! grep -qi 'Medium publication' "$$f"; then \
+			echo "$$f: title/description must mention Medium publication"; fail=1; \
+		fi; \
+		if ! grep -q 'href="https://arverma.dev/"' "$$f"; then \
+			echo "$$f: missing arverma.dev footer link"; fail=1; \
+		fi; \
+		if grep -q '<img' "$$f" && ! grep -q 'alt=' "$$f"; then \
+			echo "$$f: image missing alt text"; fail=1; \
+		fi; \
+		if grep -q '<img' "$$f" && ! grep -q 'width=' "$$f"; then \
+			echo "$$f: image missing width"; fail=1; \
+		fi; \
+		if grep -q '<img' "$$f" && ! grep -q 'height=' "$$f"; then \
+			echo "$$f: image missing height"; fail=1; \
 		fi; \
 		for href in / editors.html faqs.html partner-policy.html; do \
 			if ! grep -q "href=\"$$href\"" "$$f"; then \
 				echo "$$f: missing nav link to $$href"; fail=1; \
 			fi; \
 		done; \
+		if [ "$$(grep -c '<title>' guidelines.html)" -ne 1 ] || \
+			[ "$$(grep -c 'name="description"' guidelines.html)" -ne 1 ] || \
+			[ "$$(grep -c '<h1' guidelines.html)" -ne 1 ]; then \
+			echo "guidelines.html: expected one title, description, and h1"; fail=1; \
+		fi; \
+		if ! grep -q 'property="og:title"' guidelines.html || \
+			! grep -q 'property="og:description"' guidelines.html || \
+			! grep -q 'href="https://arverma.dev/"' guidelines.html; then \
+			echo "guidelines.html: missing required social metadata or footer link"; fail=1; \
+		fi; \
 		if ! grep -q 'src="js/site.js"' "$$f"; then \
 			echo "$$f: missing js/site.js"; fail=1; \
 		fi; \
@@ -77,6 +113,12 @@ check:
 	fi; \
 	if ! grep -q 'application/ld+json' faqs.html; then \
 		echo "faqs.html: missing structured data"; fail=1; \
+	fi; \
+	if ! grep -q '"@type": "Organization"' index.html; then \
+		echo "index.html: missing Organization JSON-LD"; fail=1; \
+	fi; \
+	if ! grep -q '"@type": "FAQPage"' faqs.html; then \
+		echo "faqs.html: missing FAQPage JSON-LD"; fail=1; \
 	fi; \
 	if [ ! -f assets/favicon-32.png ]; then \
 		echo "missing: assets/favicon-32.png"; fail=1; \
