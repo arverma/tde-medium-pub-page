@@ -49,7 +49,7 @@ check:
 		if ! grep -q 'name="twitter:card"' "$$f"; then \
 			echo "$$f: missing Twitter metadata"; fail=1; \
 		fi; \
-		for href in index.html editors.html faqs.html partner-policy.html; do \
+		for href in / editors.html faqs.html partner-policy.html; do \
 			if ! grep -q "href=\"$$href\"" "$$f"; then \
 				echo "$$f: missing nav link to $$href"; fail=1; \
 			fi; \
