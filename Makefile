@@ -57,6 +57,11 @@ check:
 				echo "$$f: missing Open Graph $$attr"; fail=1; \
 			fi; \
 		done; \
+		for need in 'og:image" content="https://tde.arverma.dev/assets/og-image.png' 'twitter:image" content="https://tde.arverma.dev/assets/og-image.png' 'og:image:width" content="1200' 'og:image:height" content="630' 'og:image:type" content="image/png' 'twitter:card" content="summary_large_image'; do \
+			if ! grep -q "$$need" "$$f"; then \
+				echo "$$f: missing share-image metadata ($$need)"; fail=1; \
+			fi; \
+		done; \
 		if ! grep -q 'name="twitter:card"' "$$f"; then \
 			echo "$$f: missing Twitter metadata"; fail=1; \
 		fi; \
