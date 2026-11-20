@@ -11,6 +11,7 @@ on:
 
 permissions:
   contents: write
+  pages: write
 
 jobs:
   update:
@@ -50,12 +51,52 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html
-          git commit -m "chore: update latest stories from Medium RSS [skip ci]"
+          git commit -m "chore: update latest stories from Medium RSS"
           git push
 
-      - name: Notify IndexNow
+      - name: Request Pages build
         if: steps.check.outputs.changed == 'true'
         run: |
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/pages/builds" \
+            || echo "Pages build request failed (non-fatal)"
+
+      - name: Wait for deployment and notify IndexNow
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          # Extract first story URL from index.html
+          FIRST_STORY_URL=$(python3 -c "
+          import re
+          with open('index.html', 'r') as f:
+              content = f.read()
+              match = re.search(r'<!-- LATEST_STORIES_START -->.*?href=\"([^\"]+)\"', content, re.DOTALL)
+              if match:
+                  print(match.group(1))
+          ")
+          
+          if [ -z "$FIRST_STORY_URL" ]; then
+            echo "Could not extract first story URL, skipping wait"
+            exit 0
+          fi
+          
+          echo "Waiting for https://tde.arverma.dev/ to contain: $FIRST_STORY_URL"
+          
+          # Poll for up to 5 minutes (60 attempts, 5 seconds apart)
+          for i in {1..60}; do
+            if curl -sL https://tde.arverma.dev/ | grep -q "$FIRST_STORY_URL"; then
+              echo "Deployment confirmed after $((i * 5)) seconds"
+              break
+            fi
+            if [ $i -eq 60 ]; then
+              echo "Timeout waiting for deployment (5 minutes), proceeding anyway"
+            else
+              sleep 5
+            fi
+          done
+          
+          # Notify IndexNow
           curl -X POST 'https://api.indexnow.org/indexnow' \
             -H 'Content-Type: application/json' \
             -d '{
