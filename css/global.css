@@ -698,3 +698,135 @@ a:focus-visible {
     animation: none !important;
   }
 }
+
+/* Buttons */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 1.25rem;
+  border: 2px solid var(--accent);
+  border-radius: var(--radius);
+  font-family: var(--font);
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.2;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.button-primary {
+  background: var(--accent);
+  color: #ffffff;
+}
+
+.button-primary:hover {
+  background: transparent;
+  color: var(--accent);
+}
+
+.button-secondary {
+  background: transparent;
+  color: var(--accent);
+}
+
+.button-secondary:hover {
+  background: var(--accent);
+  color: #ffffff;
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+/* Hero tagline */
+.hero-tagline {
+  margin: 0.85rem 0 0;
+  font-size: 1.05rem;
+  color: var(--ink-2);
+  line-height: 1.6;
+  max-width: 540px;
+}
+
+/* Topic list */
+.topic-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.topic-item {
+  padding: 1.25rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  transition: border-color 0.2s ease;
+}
+
+.topic-item:hover {
+  border-color: var(--accent);
+}
+
+.topic-name {
+  margin: 0 0 0.5rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+}
+
+.topic-desc {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--ink-2);
+  line-height: 1.6;
+}
+
+/* Steps list */
+.steps-list {
+  margin: 1.5rem 0;
+  padding-left: 1.5rem;
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: var(--ink-2);
+}
+
+.steps-list li {
+  margin-bottom: 0.75rem;
+}
+
+.steps-list a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.steps-list a:hover {
+  color: var(--accent);
+}
+
+/* Section editors */
+.section-editors {
+  border-bottom: none;
+}
+
+@media (max-width: 580px) {
+  .topic-list {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .button {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+}
