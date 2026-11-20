@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-Update Latest Stories in index.html from the Medium RSS feed.
+Inject Latest Stories into index.html from the Medium RSS feed at build time.
 
 Mirrors the approach from arverma.dev (src/lib/medium.ts and Writing.astro):
-- Fetch https://medium.com/feed/towards-data-engineering at update time
+- Fetch https://medium.com/feed/towards-data-engineering at build/deploy time
 - Normalize URLs (strip query/hash like Medium's ?source= tracking) so URLs compare and link cleanly
 - Take the 6 newest items
-- Fall back to leaving index.html unchanged if Medium is unreachable (safe failure mode)
+- Fall back to keeping the fallback link if Medium is unreachable (safe failure mode)
 """
 
 import sys
@@ -16,7 +16,6 @@ from urllib.parse import urlparse
 from xml.etree import ElementTree as ET
 
 FEED_URL = "https://medium.com/feed/towards-data-engineering"
-INDEX_FILE = "index.html"
 START_MARKER = "<!-- LATEST_STORIES_START -->"
 END_MARKER = "<!-- LATEST_STORIES_END -->"
 MAX_ITEMS = 6
@@ -77,17 +76,17 @@ def generate_html_block(stories):
     return "\n".join(lines)
 
 
-def update_index_file(new_html_block):
-    """Update index.html with the new stories block. Returns True if file changed."""
+def inject_stories(target_file, new_html_block):
+    """Inject stories block into the target file. Returns True if successful."""
     try:
-        with open(INDEX_FILE, "r", encoding="utf-8") as f:
+        with open(target_file, "r", encoding="utf-8") as f:
             content = f.read()
 
         start_idx = content.find(START_MARKER)
         end_idx = content.find(END_MARKER)
 
         if start_idx == -1 or end_idx == -1:
-            print("Markers not found in index.html", file=sys.stderr)
+            print(f"Markers not found in {target_file}", file=sys.stderr)
             return False
 
         new_content = (
@@ -98,33 +97,35 @@ def update_index_file(new_html_block):
             + content[end_idx:]
         )
 
-        if new_content != content:
-            with open(INDEX_FILE, "w", encoding="utf-8") as f:
-                f.write(new_content)
-            print("Updated index.html with latest stories")
-            return True
-        else:
-            print("No changes needed")
-            return False
+        with open(target_file, "w", encoding="utf-8") as f:
+            f.write(new_content)
+        print(f"Injected latest stories into {target_file}")
+        return True
 
     except Exception as e:
-        print(f"Failed to update index.html: {e}", file=sys.stderr)
+        print(f"Failed to inject stories: {e}", file=sys.stderr)
         return False
 
 
 def main():
     """
     Single source for the Latest Stories list (like arverma.dev getPosts()).
-    If Medium is unreachable, leave index.html unchanged (fallback behavior).
+    If Medium is unreachable, leave the fallback link (safe failure mode).
+    Usage: update-latest-stories.py <target-file>
     """
+    if len(sys.argv) != 2:
+        print("Usage: update-latest-stories.py <target-file>", file=sys.stderr)
+        sys.exit(1)
+
+    target_file = sys.argv[1]
     stories = fetch_latest_stories()
 
     if stories is None:
-        print("Medium unreachable or empty, leaving index.html unchanged")
+        print(f"Medium unreachable or empty, leaving {target_file} with fallback link")
         sys.exit(0)
 
     new_html_block = generate_html_block(stories)
-    update_index_file(new_html_block)
+    inject_stories(target_file, new_html_block)
     sys.exit(0)
 
 
