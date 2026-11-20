@@ -248,11 +248,18 @@ a:focus-visible {
   color: var(--accent);
 }
 
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
 .discord-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-top: 1.5rem;
   padding: 0.6rem 0.85rem;
   border: 1px solid var(--accent);
   border-radius: var(--radius);
@@ -265,6 +272,17 @@ a:focus-visible {
 
 .discord-button:hover {
   background: transparent;
+  color: var(--accent);
+}
+
+.medium-link {
+  color: var(--ink-2);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  font-size: 0.88rem;
+}
+
+.medium-link:hover {
   color: var(--accent);
 }
 
