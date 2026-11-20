@@ -1,6 +1,6 @@
 # Towards Data Engineering
 
-Public site for the [Towards Data Engineering](https://medium.com/towards-data-engineering) publication on Medium. Live at [tde.arverma.dev](https://tde.arverma.dev).
+Public site for the [Towards Data Engineering](https://medium.com/towards-data-engineering) publication on Medium. Live at [tde.arverma.dev](https://tde.arverma.dev). Run by [Aman Ranjan Verma](https://arverma.dev).
 
 | Page | File | What it does |
 |---|---|---|
