@@ -764,11 +764,6 @@ a:focus-visible {
   padding: 1.25rem;
   border: 1px solid var(--rule);
   border-radius: var(--radius);
-  transition: border-color 0.2s ease;
-}
-
-.topic-item:hover {
-  border-color: var(--accent);
 }
 
 .topic-name {
