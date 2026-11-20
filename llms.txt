@@ -1,0 +1,27 @@
+# Towards Data Engineering
+
+Towards Data Engineering is a Medium publication on data engineering, cloud architecture, agentic AI, and MLOps. The publication features practical stories from data engineers working on real systems. Edited by Aman Ranjan Verma, it serves a community of practitioners building and operating data platforms at scale.
+
+## Pages
+
+- Home: https://tde.arverma.dev/ - About the publication, latest stories, and writer request form
+- FAQs: https://tde.arverma.dev/faqs.html - Frequently asked questions about writing for TDE
+- Editors: https://tde.arverma.dev/editors.html - Information for editors and how to join the editorial team
+- Partner Policy: https://tde.arverma.dev/partner-policy.html - Guidelines for partnerships and collaborations
+- Medium publication: https://medium.com/towards-data-engineering - The full publication with all stories
+
+## About the editor
+
+Aman Ranjan Verma is a senior data engineer at QuillBot with 7+ years building data and AI platforms. He edits Towards Data Engineering and writes about data engineering, Apache Iceberg, Kafka, and data platforms.
+
+Website: https://arverma.dev/
+Medium: https://amanranjanverma.medium.com/
+LinkedIn: https://www.linkedin.com/in/ar-verma/
+GitHub: https://github.com/arverma
+X: https://x.com/100pebhari
+
+## Contact
+
+Email: towardsdataengg@gmail.com
+X: https://x.com/TowardsDataEngg
+LinkedIn: https://www.linkedin.com/company/towards-data-engineering/

@@ -1,0 +1,65 @@
+name: IndexNow
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '**.html'
+      - 'sitemap.xml'
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'arverma'
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      
+      - name: Get changed files
+        id: changed
+        run: |
+          if git rev-parse HEAD~1 >/dev/null 2>&1; then
+            CHANGED=$(git diff --name-only HEAD~1 HEAD | grep -E '\.(html|xml)$' || true)
+          else
+            CHANGED=$(find . -name '*.html' -o -name 'sitemap.xml')
+          fi
+          
+          if [ -z "$CHANGED" ]; then
+            echo "No HTML or sitemap files changed"
+            echo "urls=" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          
+          URLS=""
+          while IFS= read -r file; do
+            if [ -n "$file" ]; then
+              URL="https://tde.arverma.dev/${file#./}"
+              URLS="${URLS}\"${URL}\","
+            fi
+          done <<< "$CHANGED"
+          
+          URLS="[${URLS%,}]"
+          echo "urls=$URLS" >> $GITHUB_OUTPUT
+      
+      - name: Submit to IndexNow
+        if: steps.changed.outputs.urls != ''
+        run: |
+          URLS='${{ steps.changed.outputs.urls }}'
+          
+          if [ "$URLS" = "[]" ] || [ -z "$URLS" ]; then
+            echo "No URLs to submit"
+            exit 0
+          fi
+          
+          curl -X POST 'https://api.indexnow.org/indexnow' \
+            -H 'Content-Type: application/json' \
+            -d '{
+              "host": "tde.arverma.dev",
+              "key": "46ea86a7ca2b9ab5e74e4e8c96b04d10",
+              "keyLocation": "https://tde.arverma.dev/46ea86a7ca2b9ab5e74e4e8c96b04d10.txt",
+              "urlList": '"$URLS"'
+            }' || echo "IndexNow submission failed (non-fatal)"
